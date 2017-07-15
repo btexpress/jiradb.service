@@ -1,0 +1,16 @@
+[Unit]
+Description=jiradb
+Before=runlevel3.target
+Before=runlevel5.target
+Before=jira.service
+
+[Service]
+Type=simple
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+ExecStart=/sbin/runuser -l postgres -c 'pg_ctl -D data -l logfile start'
+ExecStop=/sbin/runuser -l postgres -c 'pg_ctl -D data -l logfile -m fast stop'
